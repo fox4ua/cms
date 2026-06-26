@@ -1,0 +1,7 @@
+<div class="d-flex justify-content-between align-items-center mb-3"><div><h1 class="h3 mb-1">Блокировки модулей</h1><div class="text-muted">Активные блокировки автоматически удаляются после TTL или завершения запроса.</div></div><a class="btn btn-outline-secondary" href="<?= site_url('admin/modules') ?>">Назад</a></div>
+<?php if (session()->getFlashdata('success')): ?><div class="alert alert-success"><?= esc(session()->getFlashdata('success')) ?></div><?php endif; ?>
+<?php if (session()->getFlashdata('error')): ?><div class="alert alert-danger"><?= esc(session()->getFlashdata('error')) ?></div><?php endif; ?>
+<table class="table table-sm table-striped align-middle"><thead><tr><th>Ключ</th><th>Операция</th><th>Владелец</th><th>Создана</th><th>Истекает</th><th></th></tr></thead><tbody>
+<?php foreach ($locks as $lock): ?><tr><td><code><?= esc($lock['lock_key']) ?></code></td><td><?= esc($lock['operation'] ?? '') ?></td><td><?= esc($lock['owner'] ?? '') ?></td><td><?= esc($lock['created_at']) ?></td><td><?= esc($lock['expires_at']) ?></td><td class="text-end"><form method="post" action="<?= site_url('admin/modules/locks/force/' . rawurlencode($lock['lock_key'])) ?>"><?= csrf_field() ?><button class="btn btn-sm btn-outline-danger" onclick="return confirm('Принудительно снять блокировку? Делайте это только если операция точно завершилась.')">Снять</button></form></td></tr><?php endforeach; ?>
+<?php if ($locks === []): ?><tr><td colspan="6" class="text-muted">Активных блокировок нет.</td></tr><?php endif; ?>
+</tbody></table>

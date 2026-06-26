@@ -1,0 +1,2 @@
+-- SystemHealth does not require module-specific database tables.
+-- Menu and routes are registered from module.php by ModuleManager.
