@@ -1,0 +1,14 @@
+# Prefer: root /path/to/project/public;
+# When the project root is exposed temporarily, deny every non-public CMS directory.
+location ~ ^/(?:cms|sql|tests|writable|vendor|app|system)(?:/|$) {
+    deny all;
+    return 404;
+}
+location ~ /(?:^|/)\. {
+    deny all;
+    return 404;
+}
+location = /.env {
+    deny all;
+    return 404;
+}

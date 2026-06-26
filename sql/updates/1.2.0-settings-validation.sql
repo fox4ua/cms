@@ -1,0 +1,26 @@
+-- Settings validation metadata upgrade. MySQL/MariaDB compatible.
+SET @sql := (SELECT IF(COUNT(*) = 0, 'ALTER TABLE `system_settings` ADD COLUMN `is_required` TINYINT(1) NOT NULL DEFAULT 0 AFTER `sort_order`', 'SELECT 1') FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'system_settings' AND COLUMN_NAME = 'is_required');
+PREPARE stmt FROM @sql;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
+SET @sql := (SELECT IF(COUNT(*) = 0, 'ALTER TABLE `system_settings` ADD COLUMN `min_value` INT NULL AFTER `is_required`', 'SELECT 1') FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'system_settings' AND COLUMN_NAME = 'min_value');
+PREPARE stmt FROM @sql;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
+SET @sql := (SELECT IF(COUNT(*) = 0, 'ALTER TABLE `system_settings` ADD COLUMN `max_value` INT NULL AFTER `min_value`', 'SELECT 1') FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'system_settings' AND COLUMN_NAME = 'max_value');
+PREPARE stmt FROM @sql;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
+SET @sql := (SELECT IF(COUNT(*) = 0, 'ALTER TABLE `system_settings` ADD COLUMN `validation_rule` VARCHAR(255) NULL AFTER `max_value`', 'SELECT 1') FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'system_settings' AND COLUMN_NAME = 'validation_rule');
+PREPARE stmt FROM @sql;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
+SET @sql := (SELECT IF(COUNT(*) = 0, 'ALTER TABLE `system_settings` ADD COLUMN `is_secret` TINYINT(1) NOT NULL DEFAULT 0 AFTER `validation_rule`', 'SELECT 1') FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'system_settings' AND COLUMN_NAME = 'is_secret');
+PREPARE stmt FROM @sql;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
+UPDATE system_settings SET is_required = 1, validation_rule = 'email' WHERE setting_key IN ('admin_email','mail_from_email');
+UPDATE system_settings SET is_required = 1, validation_rule = 'timezone' WHERE setting_key = 'timezone';
+UPDATE system_settings SET min_value = 1, max_value = 2048 WHERE setting_key = 'upload_max_mb';
+UPDATE system_settings SET min_value = 0, max_value = 3650 WHERE setting_key = 'audit_log_retention_days';
+UPDATE system_settings SET min_value = 60, max_value = 86400 WHERE setting_key = 'cache_settings_ttl';

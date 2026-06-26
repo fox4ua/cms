@@ -1,0 +1,28 @@
+-- ModuleManager upgrade from early prototypes. MySQL/MariaDB compatible.
+SET @sql := (SELECT IF(COUNT(*) = 0, 'ALTER TABLE `cms_modules` ADD COLUMN `available_version` VARCHAR(50) NOT NULL DEFAULT '1.0.0' AFTER `version`', 'SELECT 1') FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'cms_modules' AND COLUMN_NAME = 'available_version');
+PREPARE stmt FROM @sql;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
+SET @sql := (SELECT IF(COUNT(*) = 0, 'ALTER TABLE `cms_modules` ADD COLUMN `installed_version` VARCHAR(50) NOT NULL DEFAULT '1.0.0' AFTER `available_version`', 'SELECT 1') FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'cms_modules' AND COLUMN_NAME = 'installed_version');
+PREPARE stmt FROM @sql;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
+SET @sql := (SELECT IF(COUNT(*) = 0, 'ALTER TABLE `cms_modules` ADD COLUMN `install_status` ENUM('discovered','installing','installed','updating','error') NOT NULL DEFAULT 'installed' AFTER `installed_version`', 'SELECT 1') FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'cms_modules' AND COLUMN_NAME = 'install_status');
+PREPARE stmt FROM @sql;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
+SET @sql := (SELECT IF(COUNT(*) = 0, 'ALTER TABLE `cms_modules` ADD COLUMN `is_installed` TINYINT(1) NOT NULL DEFAULT 1 AFTER `install_status`', 'SELECT 1') FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'cms_modules' AND COLUMN_NAME = 'is_installed');
+PREPARE stmt FROM @sql;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
+SET @sql := (SELECT IF(COUNT(*) = 0, 'ALTER TABLE `cms_modules` ADD COLUMN `dependencies` TEXT NULL AFTER `menu_order`', 'SELECT 1') FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'cms_modules' AND COLUMN_NAME = 'dependencies');
+PREPARE stmt FROM @sql;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
+SET @sql := (SELECT IF(COUNT(*) = 0, 'ALTER TABLE `cms_modules` ADD COLUMN `last_error` TEXT NULL AFTER `dependencies`', 'SELECT 1') FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'cms_modules' AND COLUMN_NAME = 'last_error');
+PREPARE stmt FROM @sql;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
+UPDATE cms_modules SET available_version = version WHERE available_version IS NULL OR available_version = '';
+UPDATE cms_modules SET installed_version = version WHERE installed_version IS NULL OR installed_version = '';
+UPDATE cms_modules SET install_status = 'installed', is_installed = 1 WHERE install_status IS NULL OR install_status = '';

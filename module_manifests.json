@@ -1,0 +1,79 @@
+[
+  {
+    "type": "system",
+    "path": "cms/system/AuditLog",
+    "manifest": "cms/system/AuditLog/module.php",
+    "machine_name": "AuditLog",
+    "version": "1.0.0"
+  },
+  {
+    "type": "system",
+    "path": "cms/system/Auth",
+    "manifest": "cms/system/Auth/module.php",
+    "machine_name": "Auth",
+    "version": "1.0.0"
+  },
+  {
+    "type": "system",
+    "path": "cms/system/Dashboard",
+    "manifest": "cms/system/Dashboard/module.php",
+    "machine_name": "Dashboard",
+    "version": "1.0.0"
+  },
+  {
+    "type": "system",
+    "path": "cms/system/Installer",
+    "manifest": "cms/system/Installer/module.php",
+    "machine_name": "Installer",
+    "version": "1.0.0"
+  },
+  {
+    "type": "system",
+    "path": "cms/system/Kernel",
+    "manifest": "cms/system/Kernel/module.php",
+    "machine_name": "Kernel",
+    "version": "1.2.0"
+  },
+  {
+    "type": "system",
+    "path": "cms/system/Maintenance",
+    "manifest": "cms/system/Maintenance/module.php",
+    "machine_name": "Maintenance",
+    "version": "1.1.0"
+  },
+  {
+    "type": "system",
+    "path": "cms/system/Menu",
+    "manifest": "cms/system/Menu/module.php",
+    "machine_name": "Menu",
+    "version": "1.2.0"
+  },
+  {
+    "type": "system",
+    "path": "cms/system/ModuleManager",
+    "manifest": "cms/system/ModuleManager/module.php",
+    "machine_name": "ModuleManager",
+    "version": "1.5.0"
+  },
+  {
+    "type": "system",
+    "path": "cms/system/RouteManager",
+    "manifest": "cms/system/RouteManager/module.php",
+    "machine_name": "RouteManager",
+    "version": "1.1.0"
+  },
+  {
+    "type": "system",
+    "path": "cms/system/Settings",
+    "manifest": "cms/system/Settings/module.php",
+    "machine_name": "Settings",
+    "version": "1.1.0"
+  },
+  {
+    "type": "system",
+    "path": "cms/system/SystemHealth",
+    "manifest": "cms/system/SystemHealth/module.php",
+    "machine_name": "SystemHealth",
+    "version": "1.1.0"
+  }
+]

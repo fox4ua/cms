@@ -1,0 +1,8 @@
+# Prefer DocumentRoot /path/to/project/public
+# For project-root deployments, place equivalent rules in the virtual host.
+<DirectoryMatch "^/.*/(?:cms|sql|tests|writable|vendor|app|system)(?:/|$)">
+    Require all denied
+</DirectoryMatch>
+<FilesMatch "^\.(?:env|git)">
+    Require all denied
+</FilesMatch>
